@@ -2,8 +2,10 @@ from math import sqrt
 
 import svgwrite
 
-# Measurements in mm
+show_dashes = True
+show_points = True
 
+# Measurements in mm
 size = 14
 
 bust = 880
@@ -125,11 +127,6 @@ def get_base_shapes():
         ("curve", p20, p21, [[p20[0], p21[1]]]),
         ("curve", p1, p9, [[p9[0], p1[1]]]),
         ("french_curve", [p11, p16, p14a, p32, p22a, p31, p30]),
-
-        # Curves
-        # draw back neck curve ("curve", p1, p9)
-        # draw front neck curve ("curve", p20, p21)
-        # draw armscye 11,16,32,31,30
     ]
 
 
@@ -168,7 +165,7 @@ def render_svg(shapes, filename="pattern.svg"):
             _, a, b = s
             dwg.add(dwg.line(a, b, **style))
 
-        elif s[0] == "dash":
+        elif s[0] == "dash" and show_dashes:
             _, a, b = s
             dwg.add(dwg.line(a, b, **dash_style))
 
@@ -193,7 +190,7 @@ def render_svg(shapes, filename="pattern.svg"):
             if d:
                 dwg.add(dwg.path(d=d, **style))
 
-        elif s[0] == "circle":
+        elif s[0] == "circle" and show_points:
             _, named_pts = s
             for name, p in named_pts.items():
                 dwg.add(dwg.circle(center=p, r=1, **style))

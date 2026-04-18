@@ -49,6 +49,16 @@ def build_french_curve_path(points):
     return " ".join(path)
 
 
+def build_two_point_curve(start, end, k=0.45, draw_dir="rtl"):
+    dx = abs(end[0] - start[0])
+    dy = abs(end[1] - start[1])
+
+    c1 = [start[0], start[1] + k * dy] if draw_dir == "rtl" else [start[0], start[1] + k * dy]
+    c2 = [end[0] - k * dx, end[1]] if draw_dir == "rtl" else [end[0] + k * dx, end[1]]
+
+    return "curve", start, end, [c1, c2]
+
+
 def get_base_shapes():
     p0 = (0, 0)
     p1 = (0, 15)
@@ -124,8 +134,9 @@ def get_base_shapes():
         ("dash", p32, p34),
         ("dash", p14, p14a),
         ("dash", p22, p22a),
-        ("curve", p20, p21, [[p20[0], p21[1]]]),
-        ("curve", p1, p9, [[p9[0], p1[1]]]),
+        # ("curve", p20, p21, [[p20[0], p20[1] + 40], [p21[0] - 40, p21[1]]]),
+        build_two_point_curve(p20, p21, draw_dir="rtl"),
+        build_two_point_curve(p9, p1, draw_dir="ltr"),
         ("french_curve", [p11, p16, p14a, p32, p22a, p31, p30]),
     ]
 

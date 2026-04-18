@@ -52,7 +52,7 @@ def get_base_shapes():
         ("curve", pts["p20"], pts["p21"], 0.45),
         ("curve", pts["p9"], pts["p1"], 0.45),
 
-        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"], pts["p22a"], pts["p31"], pts["p30"]]),
+        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"], pts["p22a"], pts["p31"], pts["p30"]], 6),
     ]
 
 
@@ -61,6 +61,7 @@ render_svg(
     my_shapes,
     show_dashes=True,
     show_points=True,
+    show_numbers=True,
 )
 
 print("Generated in pattern.svg")

@@ -13,7 +13,7 @@ def get_bounds(shapes):
     return min(xs), min(ys), max(xs), max(ys)
 
 
-def build_french_curve_path(points):
+def build_french_curve_path(points, k):
     pts = [tuple(p) for p in points]
     if len(pts) < 2:
         return ""
@@ -25,8 +25,8 @@ def build_french_curve_path(points):
         p2 = pts[i + 1]
         p3 = pts[i + 2] if i + 2 < len(pts) else pts[i + 1]
 
-        c1 = (p1[0] + (p2[0] - p0[0]) / 6.0, p1[1] + (p2[1] - p0[1]) / 6.0)
-        c2 = (p2[0] - (p3[0] - p1[0]) / 6.0, p2[1] - (p3[1] - p1[1]) / 6.0)
+        c1 = (p1[0] + (p2[0] - p0[0]) / k, p1[1] + (p2[1] - p0[1]) / k)
+        c2 = (p2[0] - (p3[0] - p1[0]) / k, p2[1] - (p3[1] - p1[1]) / k)
         path.append(f"C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {p2[0]},{p2[1]}")
 
     return " ".join(path)
@@ -37,6 +37,7 @@ def render_svg(
         filename="pattern.svg",
         show_dashes=True,
         show_points=True,
+        show_numbers=True,
 ):
     minx, miny, maxx, maxy = get_bounds(shapes)
 
@@ -78,8 +79,8 @@ def render_svg(
             dwg.add(dwg.path(d=d, **style))
 
         elif s[0] == "french_curve":
-            _, pts = s
-            d = build_french_curve_path(pts)
+            _, pts, k = s
+            d = build_french_curve_path(pts, k)
             if d:
                 dwg.add(dwg.path(d=d, **style))
 
@@ -87,6 +88,6 @@ def render_svg(
             _, named_pts = s
             for name, p in named_pts.items():
                 dwg.add(dwg.circle(center=p, r=1, **style))
-                dwg.add(dwg.text(name, insert=[p[0] + 2, p[1] + 2], **text_style))
+                dwg.add(dwg.text(name, insert=[p[0] + 2, p[1] + 2], **text_style)) if show_numbers else None
 
     dwg.save()

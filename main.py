@@ -30,6 +30,17 @@ distance_from_p22 = 17.5 if 6 <= size <= 8 \
     else 25
 
 
+def reflect_point_across_line(p, a, b):
+    dx, dy = [b[0] - a[0], b[1] - a[1]]
+    den = dx * dx + dy * dy
+    if den == 0:
+        return [p[0], p[1]]
+
+    t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / den
+    q = [a[0] + t * dx, a[1] + t * dy]
+    return [2 * q[0] - p[0], 2 * q[1] - p[1]]
+
+
 def build_french_curve_path(points):
     pts = [tuple(p) for p in points]
     if len(pts) < 2:
@@ -75,7 +86,8 @@ def get_base_shapes():
     p10 = [0, p1[1] + (armscye_depth / 5) - 7]
     p11 = [p9[0] + sqrt((shoulder + 10) ** 2 - p10[1] ** 2), p10[1]]
     p12 = [(p9[0] + p11[0]) / 2, (p9[1] + p11[1]) / 2]
-    # p13 = neck dart back
+    p12a = [p12[0], p12[1] + sqrt(24) * 10]
+    p13 = [p12[0] - 10, p12a[1]]
     p14 = [back_width / 2 + 5, p2[1]]
     p15 = [p14[0], p10[1]]
     p16 = [(p14[0] + p15[0]) / 2, (p14[1] + p15[1]) / 2]
@@ -103,6 +115,13 @@ def get_base_shapes():
     p14a = [p14[0] + (distance_from_p14 / sqrt(2)), p14[1] - (distance_from_p14 / sqrt(2))]
     p22a = [p22[0] - (distance_from_p22 / sqrt(2)), p22[1] - (distance_from_p22 / sqrt(2))]
 
+    d12_11 = sqrt((p11[0] - p12[0]) ** 2 + (p11[1] - p12[1]) ** 2)
+    p12_1 = [
+        p12[0] + 5 * ((p11[0] - p12[0]) / d12_11),
+        p12[1] + 5 * ((p11[1] - p12[1]) / d12_11),
+    ]
+    p12_2 = reflect_point_across_line(p12_1, p12, p13)
+
     named_points = {
         name[1:]: tuple(value)
         for name, value in locals().items()
@@ -120,7 +139,6 @@ def get_base_shapes():
         ("line", p7, p8),
         ("dash", p0, p9),
         ("dash", p10, p11),
-        ("line", p9, p11),
         ("dash", p14, p15),
         ("dash", p17, p19),
         ("dash", p4, p27),
@@ -134,9 +152,16 @@ def get_base_shapes():
         ("dash", p32, p34),
         ("dash", p14, p14a),
         ("dash", p22, p22a),
-        # ("curve", p20, p21, [[p20[0], p20[1] + 40], [p21[0] - 40, p21[1]]]),
+        ("dash", p12, p12a),
+        ("dash", p13, p12a),
+        ("line", p13, p12_1),
+        ("line", p13, p12_2),
+        ("line", p12_1, p11),
+        ("line", p12_2, p9),
+
         build_two_point_curve(p20, p21, draw_dir="rtl"),
         build_two_point_curve(p9, p1, draw_dir="ltr"),
+
         ("french_curve", [p11, p16, p14a, p32, p22a, p31, p30]),
     ]
 

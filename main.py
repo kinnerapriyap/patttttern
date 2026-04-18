@@ -65,25 +65,29 @@ def get_base_shapes():
 
     return [
         ("circle", named_points),
-        ("line", p0, p7),
-        ("line", p2, p3),
-        ("line", p4, p8),
-        ("line", p5, p6),
+        ("dash", p0, p1),
+        ("line", p1, p7),
+        ("dash", p2, p3),
+        ("dash", p4, p21),
+        ("line", p21, p8),
+        ("dash", p5, p6),
         ("line", p7, p8),
-        ("line", p0, p9),
-        ("line", p10, p11),
+        ("dash", p0, p9),
+        ("dash", p10, p11),
         ("line", p9, p11),
-        ("line", p14, p15),
-        ("line", p17, p19),
-        ("line", p4, p27),
-        ("line", p23, p25),
+        ("dash", p14, p15),
+        ("dash", p17, p19),
+        ("dash", p4, p27),
+        ("dash", p23, p25),
         ("line", p20, p26),
         ("line", p27, p26),
-        ("line", p11, p28),
-        ("line", p28, p29),
+        ("dash", p11, p28),
+        ("dash", p28, p29),
         ("line", p27, p30),
-        ("line", p22, p31),
-        ("line", p32, p34),
+        ("dash", p22, p31),
+        ("dash", p32, p34),
+        ("curve", p20, p21, [[p20[0], p21[1]]]),
+        ("curve", p1, p9, [[p9[0], p1[1]]])
 
         # Curves
         # draw back neck curve ("curve", p1, p9)
@@ -119,6 +123,7 @@ def render_svg(shapes, filename="pattern.svg"):
     )
 
     style = {"stroke": "pink", "stroke_width": 1, "fill": "none"}
+    dash_style = {"stroke": "pink", "stroke_width": 0.5, "fill": "none", "stroke_dasharray": "5,5"}
     text_style = {"fill": "purple", "font_size": "8px"}
 
     for s in shapes:
@@ -126,9 +131,24 @@ def render_svg(shapes, filename="pattern.svg"):
             _, a, b = s
             dwg.add(dwg.line(a, b, **style))
 
+        elif s[0] == "dash":
+            _, a, b = s
+            dwg.add(dwg.line(a, b, **dash_style))
+
         elif s[0] == "polyline":
             _, pts = s
             dwg.add(dwg.polyline(pts, **style))
+
+        elif s[0] == "curve":
+            _, start, end, controls = s
+            if len(controls) == 1:
+                c1 = controls[0]
+                d = f"M {start[0]},{start[1]} Q {c1[0]},{c1[1]} {end[0]},{end[1]}"
+                dwg.add(dwg.path(d=d, **style))
+            elif len(controls) == 2:
+                c1, c2 = controls
+                d = f"M {start[0]},{start[1]} C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {end[0]},{end[1]}"
+                dwg.add(dwg.path(d=d, **style))
 
         elif s[0] == "circle":
             _, named_pts = s

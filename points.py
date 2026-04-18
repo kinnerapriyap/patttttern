@@ -4,6 +4,14 @@ import measurements as m
 from utils import reflect_point_across_line
 
 
+def named_points_from_keys(points, keys):
+    return {
+        key[1:]: points[key]
+        for key in keys
+        if key.startswith("p") and key in points
+    }
+
+
 def build_points():
     p0 = (0, 0)
     p1 = (0, 15)
@@ -79,14 +87,13 @@ def build_points():
     }
     metadata: dict[str, object] = {
         "named_points": {
-        name[1:]: value
-        for name, value in point_values.items()
-        if name.startswith("p")
+            name[1:]: value
+            for name, value in point_values.items()
+            if name.startswith("p")
         },
         "available_dart_ease": d_available_dart_ease,
         "used_all_dart_ease": (
-            m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart == d_available_dart_ease
+                m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart == d_available_dart_ease
         ),
     }
     return {**point_values, **metadata}
-

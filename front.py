@@ -1,4 +1,4 @@
-from points import build_points
+from points import build_points, named_points_from_keys
 from svg_rendering import render_svg
 
 
@@ -10,15 +10,19 @@ def get_front_shapes():
         ("line", pts["p13"], pts["p12_2"]),
         ("line", pts["p13"], pts["p12_1"]),
         ("line", pts["p12_1"], pts["p11"]),
-        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"]]),
+        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"], pts["p22a"], pts["p31"], pts["p30"]], 6.0),
         ("line", pts["p32"], pts["p33_1"]),
         ("line", pts["p33_1"], pts["p35"]),
         ("line", pts["p35"], pts["p7"]),
         ("line", pts["p7"], pts["p1"]),
+
+        ("dash", pts["p5"], pts["p33"]),
+        ("dash", pts["p2"], pts["p32"]),
+        ("dash", pts["p10"], pts["p11"]),
     ]
 
 
 if __name__ == "__main__":
     my_shapes = get_front_shapes()
-    render_svg(my_shapes, filename="front.svg", show_dashes=True, show_points=True)
+    render_svg(my_shapes, filename="front.svg", show_dashes=True, show_points=True, show_numbers=False)
     print("Generated in front.svg")

@@ -1,0 +1,145 @@
+from math import sqrt
+
+import svgwrite
+
+# Measurements in mm
+
+bust = 880
+nape_to_waist = 410
+waist_to_hip = 206
+armscye_depth = 210
+neck_size = 370
+shoulder = 122.5
+back_width = 344
+dart = 70
+chest = 324
+size_above_14 = 3
+
+
+def get_base_shapes():
+    p0 = (0, 0)
+    p1 = (0, 15)
+    p2 = (0, p1[1] + (armscye_depth + 5))
+    p3 = (p2[0] + (bust / 2) + 50, p2[1])
+    p4 = (p3[0], p3[1] - p2[1] - (size_above_14 * 5))
+    p5 = (0, p1[1] + nape_to_waist)
+    p6 = (p3[0], p5[1])
+    p7 = (0, p5[1] + waist_to_hip)
+    p8 = (p3[0], p7[1])
+
+    # Back
+    p9 = [(neck_size / 5) - 2, 0]
+    p10 = [0, p1[1] + (armscye_depth / 5) - 7]
+    p11 = [p9[0] + sqrt((shoulder + 10) ** 2 - p10[1] ** 2), p10[1]]
+    p12 = [(p9[0] + p11[0]) / 2, (p9[1] + p11[1]) / 2]
+    # p13 = neck dart back
+    p14 = [back_width / 2 + 5, p2[1]]
+    p15 = [p14[0], p10[1]]
+    p16 = [(p14[0] + p15[0]) / 2, (p14[1] + p15[1]) / 2]
+    p17 = [(p2[0] + p14[0]) / 2, (p2[1] + p14[1]) / 2]
+    p18 = [p17[0], p5[1]]
+    p19 = [p17[0], p7[1]]
+
+    # Front
+    p20 = [p4[0] - (neck_size / 5 - 7), p4[1]]
+    p21 = [p4[0], p4[1] + neck_size / 5 - 2]
+    p22 = [p3[0] - (chest / 2 + dart / 2), p3[1]]
+    p23 = [(p3[0] + p22[0]) / 2, (p3[1] + p22[1]) / 2]
+    p24 = [p23[0], p6[1]]
+    p25 = [p23[0], p8[1]]
+    p26 = [p23[0], p23[1] + 25]
+    p27 = [p20[0] - dart, p20[1]]
+    p28 = [p11[0], p11[1] + 15]
+    p29 = [p28[0] + 100, p28[1]]
+    p30 = [p27[0] - sqrt(shoulder ** 2 - (p29[1] - p27[1]) ** 2), p29[1]]
+    p31 = [p22[0], p22[1] - ((p3[1] - p21[1]) / 3)]
+    p32 = [(p14[0] + p22[0]) / 2, (p14[1] + p22[1]) / 2]
+    p33 = [p32[0], p5[1]]
+    p34 = [p32[0], p7[1]]
+
+    named_points = {
+        name[1:]: tuple(value)
+        for name, value in locals().items()
+        if name.startswith("p") and name[1:].isdigit()
+    }
+
+    return [
+        ("circle", named_points),
+        ("line", p0, p7),
+        ("line", p2, p3),
+        ("line", p4, p8),
+        ("line", p5, p6),
+        ("line", p7, p8),
+        ("line", p0, p9),
+        ("line", p10, p11),
+        ("line", p9, p11),
+        ("line", p14, p15),
+        ("line", p17, p19),
+        ("line", p4, p27),
+        ("line", p23, p25),
+        ("line", p20, p26),
+        ("line", p27, p26),
+        ("line", p11, p28),
+        ("line", p28, p29),
+        ("line", p27, p30),
+        ("line", p22, p31),
+        ("line", p32, p34),
+
+        # Curves
+        # draw back neck curve ("curve", p1, p9)
+        # draw front neck curve ("curve", p20, p21)
+        # draw armscye 11,16,32,31,30
+    ]
+
+
+def get_bounds(shapes):
+    xs, ys = [], []
+
+    for s in shapes:
+        if s[0] == "line":
+            _, a, b = s
+            xs += [a[0], b[0]]
+            ys += [a[1], b[1]]
+
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def render_svg(shapes, filename="pattern.svg"):
+    minx, miny, maxx, maxy = get_bounds(shapes)
+
+    padding = 20
+    width = maxx - minx + padding * 2
+    height = maxy - miny + padding * 2
+
+    dwg = svgwrite.Drawing(
+        filename,
+        size=(f"{width}mm", f"{height}mm"),
+        viewBox=f"{minx - padding} {miny - padding} {width} {height}",
+        profile="full",
+    )
+
+    style = {"stroke": "pink", "stroke_width": 1, "fill": "none"}
+    text_style = {"fill": "purple", "font_size": "8px"}
+
+    for s in shapes:
+        if s[0] == "line":
+            _, a, b = s
+            dwg.add(dwg.line(a, b, **style))
+
+        elif s[0] == "polyline":
+            _, pts = s
+            dwg.add(dwg.polyline(pts, **style))
+
+        elif s[0] == "circle":
+            _, named_pts = s
+            for name, p in named_pts.items():
+                dwg.add(dwg.circle(center=p, r=1, **style))
+                dwg.add(dwg.text(name, insert=[p[0] + 2, p[1] + 2], **text_style))
+
+    dwg.save()
+
+
+my_shapes = get_base_shapes()
+render_svg(my_shapes)
+
+print("Generated in pattern.svg")

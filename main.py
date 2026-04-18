@@ -4,6 +4,8 @@ import svgwrite
 
 # Measurements in mm
 
+size = 14
+
 bust = 880
 nape_to_waist = 410
 waist_to_hip = 206
@@ -13,7 +15,36 @@ shoulder = 122.5
 back_width = 344
 dart = 70
 chest = 324
-size_above_14 = 3
+size_above_14 = max(size - 14, 0)
+distance_from_p14 = 22.5 if 6 <= size <= 8 \
+    else 25 if 10 <= size <= 14 \
+    else 30 if 16 <= size <= 20 \
+    else 35 if 22 <= size <= 26 \
+    else 30
+distance_from_p22 = 17.5 if 6 <= size <= 8 \
+    else 20 if 10 <= size <= 14 \
+    else 25 if 16 <= size <= 20 \
+    else 30 if 22 <= size <= 26 \
+    else 25
+
+
+def build_french_curve_path(points):
+    pts = [tuple(p) for p in points]
+    if len(pts) < 2:
+        return ""
+
+    path = [f"M {pts[0][0]},{pts[0][1]}"]
+    for i in range(len(pts) - 1):
+        p0 = pts[i - 1] if i > 0 else pts[i]
+        p1 = pts[i]
+        p2 = pts[i + 1]
+        p3 = pts[i + 2] if i + 2 < len(pts) else pts[i + 1]
+
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6.0, p1[1] + (p2[1] - p0[1]) / 6.0)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6.0, p2[1] - (p3[1] - p1[1]) / 6.0)
+        path.append(f"C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {p2[0]},{p2[1]}")
+
+    return " ".join(path)
 
 
 def get_base_shapes():
@@ -57,10 +88,13 @@ def get_base_shapes():
     p33 = [p32[0], p5[1]]
     p34 = [p32[0], p7[1]]
 
+    p14a = [p14[0] + (distance_from_p14 / sqrt(2)), p14[1] - (distance_from_p14 / sqrt(2))]
+    p22a = [p22[0] - (distance_from_p22 / sqrt(2)), p22[1] - (distance_from_p22 / sqrt(2))]
+
     named_points = {
         name[1:]: tuple(value)
         for name, value in locals().items()
-        if name.startswith("p") and name[1:].isdigit()
+        if name.startswith("p")
     }
 
     return [
@@ -86,8 +120,11 @@ def get_base_shapes():
         ("line", p27, p30),
         ("dash", p22, p31),
         ("dash", p32, p34),
+        ("dash", p14, p14a),
+        ("dash", p22, p22a),
         ("curve", p20, p21, [[p20[0], p21[1]]]),
-        ("curve", p1, p9, [[p9[0], p1[1]]])
+        ("curve", p1, p9, [[p9[0], p1[1]]]),
+        ("french_curve", [p11, p16, p14a, p32, p22a, p31, p30]),
 
         # Curves
         # draw back neck curve ("curve", p1, p9)
@@ -148,6 +185,12 @@ def render_svg(shapes, filename="pattern.svg"):
             elif len(controls) == 2:
                 c1, c2 = controls
                 d = f"M {start[0]},{start[1]} C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {end[0]},{end[1]}"
+                dwg.add(dwg.path(d=d, **style))
+
+        elif s[0] == "french_curve":
+            _, pts = s
+            d = build_french_curve_path(pts)
+            if d:
                 dwg.add(dwg.path(d=d, **style))
 
         elif s[0] == "circle":

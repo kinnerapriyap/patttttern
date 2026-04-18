@@ -9,12 +9,17 @@ show_points = True
 size = 14
 
 bust = 880
+bust_ease = 50
+bust_to_dart = 25
+waist = 700
 nape_to_waist = 410
 waist_to_hip = 206
 armscye_depth = 210
 neck_size = 370
 shoulder = 122.5
+shoulder_dart = 10
 back_width = 344
+back_width_ease = 5
 dart = 70
 chest = 324
 size_above_14 = max(size - 14, 0)
@@ -74,7 +79,7 @@ def get_base_shapes():
     p0 = (0, 0)
     p1 = (0, 15)
     p2 = (0, p1[1] + (armscye_depth + 5))
-    p3 = (p2[0] + (bust / 2) + 50, p2[1])
+    p3 = (p2[0] + (bust / 2) + bust_ease, p2[1])
     p4 = (p3[0], p3[1] - p2[1] - (size_above_14 * 5))
     p5 = (0, p1[1] + nape_to_waist)
     p6 = (p3[0], p5[1])
@@ -84,11 +89,11 @@ def get_base_shapes():
     # Back
     p9 = [(neck_size / 5) - 2, 0]
     p10 = [0, p1[1] + (armscye_depth / 5) - 7]
-    p11 = [p9[0] + sqrt((shoulder + 10) ** 2 - p10[1] ** 2), p10[1]]
+    p11 = [p9[0] + sqrt((shoulder + shoulder_dart) ** 2 - p10[1] ** 2), p10[1]]
     p12 = [(p9[0] + p11[0]) / 2, (p9[1] + p11[1]) / 2]
-    p12a = [p12[0], p12[1] + sqrt(24) * 10]
+    p12a = [p12[0], p12[1] + 50]
     p13 = [p12[0] - 10, p12a[1]]
-    p14 = [back_width / 2 + 5, p2[1]]
+    p14 = [back_width / 2 + back_width_ease, p2[1]]
     p15 = [p14[0], p10[1]]
     p16 = [(p14[0] + p15[0]) / 2, (p14[1] + p15[1]) / 2]
     p17 = [(p2[0] + p14[0]) / 2, (p2[1] + p14[1]) / 2]
@@ -102,7 +107,7 @@ def get_base_shapes():
     p23 = [(p3[0] + p22[0]) / 2, (p3[1] + p22[1]) / 2]
     p24 = [p23[0], p6[1]]
     p25 = [p23[0], p8[1]]
-    p26 = [p23[0], p23[1] + 25]
+    p26 = [p23[0], p23[1] + bust_to_dart]
     p27 = [p20[0] - dart, p20[1]]
     p28 = [p11[0], p11[1] + 15]
     p29 = [p28[0] + 100, p28[1]]
@@ -117,8 +122,8 @@ def get_base_shapes():
 
     d12_11 = sqrt((p11[0] - p12[0]) ** 2 + (p11[1] - p12[1]) ** 2)
     p12_1 = [
-        p12[0] + 5 * ((p11[0] - p12[0]) / d12_11),
-        p12[1] + 5 * ((p11[1] - p12[1]) / d12_11),
+        p12[0] + (shoulder_dart / 2) * ((p11[0] - p12[0]) / d12_11),
+        p12[1] + (shoulder_dart / 2) * ((p11[1] - p12[1]) / d12_11),
     ]
     p12_2 = reflect_point_across_line(p12_1, p12, p13)
 

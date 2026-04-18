@@ -12,6 +12,8 @@ bust = 880
 bust_ease = 50
 bust_to_dart = 25
 waist = 700
+waist_ease = 30
+hip = 1000
 nape_to_waist = 410
 waist_to_hip = 206
 armscye_depth = 210
@@ -22,6 +24,12 @@ back_width = 344
 back_width_ease = 5
 dart = 70
 chest = 324
+
+front_dart = 45
+back_dart = 35
+front_side_dart = 15
+back_side_dart = 15
+
 size_above_14 = max(size - 14, 0)
 distance_from_p14 = 22.5 if 6 <= size <= 8 \
     else 25 if 10 <= size <= 14 \
@@ -127,6 +135,24 @@ def get_base_shapes():
     ]
     p12_2 = reflect_point_across_line(p12_1, p12, p13)
 
+    d_half_bust_with_ease = bust / 2 + bust_ease
+    d_half_waist_with_ease = waist / 2 + waist_ease
+    d_available_dart_ease = d_half_bust_with_ease - d_half_waist_with_ease
+    print(f"Available dart ease: {d_available_dart_ease} mm")
+    print(f"Used all dart ease? {front_dart + back_dart + front_side_dart + back_side_dart == d_available_dart_ease}")
+
+    p24_1 = [p24[0] - (front_dart / 2), p24[1]]
+    p24_2 = [p24[0] + (front_dart / 2), p24[1]]
+
+    p18_1 = [p18[0] - (back_dart / 2), p18[1]]
+    p18_2 = [p18[0] + (back_dart / 2), p18[1]]
+
+    p33_1 = [p33[0] - (front_side_dart / 2), p33[1]]
+    p33_2 = [p33[0] + (back_side_dart / 2), p33[1]]
+
+    p35 = [p7[0] + (hip / 4), p7[1]]
+    p36 = [p8[0] - (hip / 4), p8[1]]
+
     named_points = {
         name[1:]: tuple(value)
         for name, value in locals().items()
@@ -163,6 +189,18 @@ def get_base_shapes():
         ("line", p13, p12_2),
         ("line", p12_1, p11),
         ("line", p12_2, p9),
+        ("line", p26, p24_1),
+        ("line", p26, p24_2),
+        ("line", p24_1, p25),
+        ("line", p24_2, p25),
+        ("line", p17, p18_1),
+        ("line", p17, p18_2),
+        ("line", p18_1, p19),
+        ("line", p18_2, p19),
+        ("line", p32, p33_1),
+        ("line", p32, p33_2),
+        ("line", p33_1, p35),
+        ("line", p33_2, p36),
 
         build_two_point_curve(p20, p21, draw_dir="rtl"),
         build_two_point_curve(p9, p1, draw_dir="ltr"),

@@ -51,16 +51,6 @@ def reflect_point_across_line(p, a, b):
     return [2 * q[0] - p[0], 2 * q[1] - p[1]]
 
 
-def build_two_point_curve(start, end, k=0.45, draw_dir="rtl"):
-    dx = abs(end[0] - start[0])
-    dy = abs(end[1] - start[1])
-
-    c1 = [start[0], start[1] + k * dy] if draw_dir == "rtl" else [start[0], start[1] + k * dy]
-    c2 = [end[0] - k * dx, end[1]] if draw_dir == "rtl" else [end[0] + k * dx, end[1]]
-
-    return "curve", start, end, [c1, c2]
-
-
 def get_base_shapes():
     p0 = (0, 0)
     p1 = (0, 15)
@@ -180,8 +170,8 @@ def get_base_shapes():
         ("line", p33_1, p35),
         ("line", p33_2, p36),
 
-        build_two_point_curve(p20, p21, draw_dir="rtl"),
-        build_two_point_curve(p9, p1, draw_dir="ltr"),
+        ("curve", p20, p21, 0.45),
+        ("curve", p9, p1, 0.45),
 
         ("french_curve", [p11, p16, p14a, p32, p22a, p31, p30]),
     ]

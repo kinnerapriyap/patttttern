@@ -1,5 +1,6 @@
 import svgwrite
 
+
 def get_bounds(shapes):
     xs, ys = [], []
 
@@ -10,6 +11,7 @@ def get_bounds(shapes):
             ys += [a[1], b[1]]
 
     return min(xs), min(ys), max(xs), max(ys)
+
 
 def build_french_curve_path(points):
     pts = [tuple(p) for p in points]
@@ -29,11 +31,12 @@ def build_french_curve_path(points):
 
     return " ".join(path)
 
+
 def render_svg(
-    shapes,
-    filename="pattern.svg",
-    show_dashes=True,
-    show_points=True,
+        shapes,
+        filename="pattern.svg",
+        show_dashes=True,
+        show_points=True,
 ):
     minx, miny, maxx, maxy = get_bounds(shapes)
 
@@ -66,15 +69,13 @@ def render_svg(
             dwg.add(dwg.polyline(pts, **style))
 
         elif s[0] == "curve":
-            _, start, end, controls = s
-            if len(controls) == 1:
-                c1 = controls[0]
-                d = f"M {start[0]},{start[1]} Q {c1[0]},{c1[1]} {end[0]},{end[1]}"
-                dwg.add(dwg.path(d=d, **style))
-            elif len(controls) == 2:
-                c1, c2 = controls
-                d = f"M {start[0]},{start[1]} C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {end[0]},{end[1]}"
-                dwg.add(dwg.path(d=d, **style))
+            _, start, end, k = s
+            dx = abs(end[0] - start[0])
+            dy = abs(end[1] - start[1])
+            c1 = [start[0], start[1] + k * dy]
+            c2 = [end[0] - k * dx, end[1]] if end[0] >= start[0] else [end[0] + k * dx, end[1]]
+            d = f"M {start[0]},{start[1]} C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {end[0]},{end[1]}"
+            dwg.add(dwg.path(d=d, **style))
 
         elif s[0] == "french_curve":
             _, pts = s
@@ -89,4 +90,3 @@ def render_svg(
                 dwg.add(dwg.text(name, insert=[p[0] + 2, p[1] + 2], **text_style))
 
     dwg.save()
-

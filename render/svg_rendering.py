@@ -7,10 +7,15 @@ def get_bounds(shapes):
     xs, ys = [], []
 
     for s in shapes:
-        if s[0] == "line":
+        if s[0] in ("line", "dash"):
             _, a, b = s
             xs += [a[0], b[0]]
             ys += [a[1], b[1]]
+        elif s[0] == "polyline":
+            _, pts = s
+            for p in pts:
+                xs.append(p[0])
+                ys.append(p[1])
 
     return min(xs), min(ys), max(xs), max(ys)
 

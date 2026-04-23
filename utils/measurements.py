@@ -20,8 +20,8 @@ chest = 360
 
 front_dart = 45
 back_dart = 35
-front_side_dart = 15
-back_side_dart = 15
+front_side_dart = 10
+back_side_dart = 10
 
 size_above_14 = max(size - 14, 0)
 distance_from_p14 = 22.5 if 6 <= size <= 8 \

@@ -59,7 +59,7 @@ def get_base_shapes():
 my_shapes = get_base_shapes()
 render_svg(
     my_shapes,
-    filename="generated/pattern.svg",
+    filename="../generated/pattern.svg",
     show_dashes=True,
     show_points=True,
     show_numbers=True,

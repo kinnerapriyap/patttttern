@@ -3,16 +3,10 @@ import os
 
 import svgwrite
 
+from back import get_back_shapes
 from front import get_front_shapes
-from svg_rendering import build_french_curve_path, get_bounds
-
-
-def _curve_controls(start, end, k):
-    dx = abs(end[0] - start[0])
-    dy = abs(end[1] - start[1])
-    c1 = [start[0], start[1] + k * dy]
-    c2 = [end[0] - k * dx, end[1]] if end[0] >= start[0] else [end[0] + k * dx, end[1]]
-    return c1, c2
+from shape_drawing import draw_shapes
+from svg_rendering import get_bounds
 
 
 def _add_tape_notches(
@@ -56,46 +50,6 @@ def _add_tape_notches(
     if row < rows - 1:  # internal seam on bottom
         for x in xs:
             dwg.add(dwg.line((x, bottom - notch_inset_mm - notch_size_mm), (x, bottom - notch_inset_mm), **style))
-
-
-def _draw_shapes(dwg, shapes, show_dashes, show_points, show_numbers):
-    style = {"stroke": "pink", "stroke_width": 1, "fill": "none"}
-    dash_style = {"stroke": "pink", "stroke_width": 0.5, "fill": "none", "stroke_dasharray": "5,5"}
-    text_style = {"fill": "purple", "font_size": "8px"}
-
-    for shape in shapes:
-        kind = shape[0]
-
-        if kind == "line":
-            _, a, b = shape
-            dwg.add(dwg.line(a, b, **style))
-
-        elif kind == "dash" and show_dashes:
-            _, a, b = shape
-            dwg.add(dwg.line(a, b, **dash_style))
-
-        elif kind == "polyline":
-            _, pts = shape
-            dwg.add(dwg.polyline(pts, **style))
-
-        elif kind == "curve":
-            _, start, end, k = shape
-            c1, c2 = _curve_controls(start, end, k)
-            d = f"M {start[0]},{start[1]} C {c1[0]},{c1[1]} {c2[0]},{c2[1]} {end[0]},{end[1]}"
-            dwg.add(dwg.path(d=d, **style))
-
-        elif kind == "french_curve":
-            _, pts, k = shape
-            d = build_french_curve_path(pts, k)
-            if d:
-                dwg.add(dwg.path(d=d, **style))
-
-        elif kind == "circle" and show_points:
-            _, named_pts = shape
-            for name, p in named_pts.items():
-                dwg.add(dwg.circle(center=p, r=1, **style))
-                if show_numbers:
-                    dwg.add(dwg.text(name, insert=[p[0] + 2, p[1] + 2], **text_style))
 
 
 def _add_page_marks(
@@ -260,7 +214,13 @@ def render_svg_a4_pages(
                 profile="full",
             )
 
-            _draw_shapes(dwg, shapes, show_dashes, show_points, show_numbers)
+            draw_shapes(
+                dwg,
+                shapes,
+                show_dashes=show_dashes,
+                show_points=show_points,
+                show_numbers=show_numbers,
+            )
             if show_notches:
                 _add_tape_notches(
                     dwg,
@@ -315,10 +275,25 @@ def render_svg_a4_pages(
     return generated_files
 
 
+def render_all_a4_patterns(output_dir=".", **kwargs):
+    return {
+        "front": render_svg_a4_pages(
+            get_front_shapes(),
+            base_filename="generated/front_a4",
+            output_dir=output_dir,
+            **kwargs,
+        ),
+        "back": render_svg_a4_pages(
+            get_back_shapes(),
+            base_filename="generated/back_a4",
+            output_dir=output_dir,
+            **kwargs,
+        ),
+    }
+
+
 if __name__ == "__main__":
-    files = render_svg_a4_pages(
-        get_front_shapes(),
-        base_filename="generated/front_a4",
+    results = render_all_a4_patterns(
         output_dir=".",
         show_dashes=True,
         show_points=False,
@@ -337,4 +312,5 @@ if __name__ == "__main__":
         show_test_square=True,
         test_square_mm=50,
     )
-    print(f"Generated {len(files)} A4 page(s) for front pattern")
+    print(f"Generated {len(results['front'])} A4 page(s) for front pattern")
+    print(f"Generated {len(results['back'])} A4 page(s) for back pattern")

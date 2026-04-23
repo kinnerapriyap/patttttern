@@ -34,7 +34,7 @@ def build_french_curve_path(points, k):
 
 def render_svg(
         shapes,
-        filename="pattern.svg",
+        filename="generated/pattern.svg",
         show_dashes=True,
         show_points=True,
         show_numbers=True,

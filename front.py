@@ -27,5 +27,5 @@ def get_front_shapes():
 
 if __name__ == "__main__":
     my_shapes = get_front_shapes()
-    render_svg(my_shapes, filename="front.svg", show_dashes=True, show_points=True, show_numbers=False)
+    render_svg(my_shapes, filename="generated/front.svg", show_dashes=True, show_points=True, show_numbers=False)
     print("Generated in front.svg")

@@ -23,8 +23,6 @@ def _add_tape_notches(
 ):
     if notch_size_mm <= 0 or notch_count <= 0:
         return
-
-    # Thicker, high-contrast seam marks for easier visual alignment.
     style = {"stroke": "black", "stroke_width": 0.8, "fill": "none"}
 
     xs = [x0 + page_w * (i + 1) / (notch_count + 1) for i in range(notch_count)]
@@ -34,8 +32,6 @@ def _add_tape_notches(
     right = x0 + page_w
     top = y0
     bottom = y0 + page_h
-
-    # Draw notches inset from borders so SVG viewers don't clip edge strokes.
     if col > 0:  # internal seam on left
         for y in ys:
             dwg.add(dwg.line((left + notch_inset_mm, y), (left + notch_inset_mm + notch_size_mm, y), **style))
@@ -48,60 +44,6 @@ def _add_tape_notches(
     if row < rows - 1:  # internal seam on bottom
         for x in xs:
             dwg.add(dwg.line((x, bottom - notch_inset_mm - notch_size_mm), (x, bottom - notch_inset_mm), **style))
-
-
-def _add_page_marks(
-    dwg,
-    x0,
-    y0,
-    page_w,
-    page_h,
-    row,
-    col,
-    rows,
-    cols,
-    show_page_labels,
-    show_overlap_arrows,
-    arrow_size_mm,
-):
-    if show_page_labels:
-        label_style = {"fill": "black", "font_size": "10px"}
-        label = f"R{row + 1}C{col + 1}"
-        dwg.add(dwg.text(label, insert=(x0 + 4, y0 + 12), **label_style))
-
-    if not show_overlap_arrows or arrow_size_mm <= 0:
-        return
-
-    style = {"stroke": "black", "stroke_width": 0.6, "fill": "none"}
-    cx = x0 + page_w / 2
-    cy = y0 + page_h / 2
-
-    # Tiny seam arrows to indicate adjoining page direction.
-    if col > 0:  # seam to left page
-        x = x0 + 6
-        y = cy
-        dwg.add(dwg.line((x + arrow_size_mm, y), (x, y), **style))
-        dwg.add(dwg.line((x, y), (x + arrow_size_mm * 0.5, y - arrow_size_mm * 0.4), **style))
-        dwg.add(dwg.line((x, y), (x + arrow_size_mm * 0.5, y + arrow_size_mm * 0.4), **style))
-    if col < cols - 1:  # seam to right page
-        x = x0 + page_w - 6
-        y = cy
-        dwg.add(dwg.line((x - arrow_size_mm, y), (x, y), **style))
-        dwg.add(dwg.line((x, y), (x - arrow_size_mm * 0.5, y - arrow_size_mm * 0.4), **style))
-        dwg.add(dwg.line((x, y), (x - arrow_size_mm * 0.5, y + arrow_size_mm * 0.4), **style))
-    if row > 0:  # seam to top page
-        x = cx
-        y = y0 + 6
-        dwg.add(dwg.line((x, y + arrow_size_mm), (x, y), **style))
-        dwg.add(dwg.line((x, y), (x - arrow_size_mm * 0.4, y + arrow_size_mm * 0.5), **style))
-        dwg.add(dwg.line((x, y), (x + arrow_size_mm * 0.4, y + arrow_size_mm * 0.5), **style))
-    if row < rows - 1:  # seam to bottom page
-        x = cx
-        y = y0 + page_h - 6
-        dwg.add(dwg.line((x, y - arrow_size_mm), (x, y), **style))
-        dwg.add(dwg.line((x, y), (x - arrow_size_mm * 0.4, y - arrow_size_mm * 0.5), **style))
-        dwg.add(dwg.line((x, y), (x + arrow_size_mm * 0.4, y - arrow_size_mm * 0.5), **style))
-
 
 def _add_page_border(
     dwg,
@@ -139,7 +81,6 @@ def _add_test_square(
     if not show_test_square or test_square_mm <= 0:
         return
 
-    # Place in top-right with small inset to avoid overlaps with border clipping.
     inset = 8
     x = x0 + page_w - inset - test_square_mm
     y = y0 + inset
@@ -167,8 +108,6 @@ def render_svg_a4_pages(
     notch_count=3,
     notch_inset_mm=1.5,
     show_page_labels=True,
-    show_overlap_arrows=True,
-    arrow_size_mm=4,
     show_page_border=True,
     page_border_color="black",
     page_border_width_mm=0.6,
@@ -234,20 +173,10 @@ def render_svg_a4_pages(
                     notch_count,
                     notch_inset_mm,
                 )
-            _add_page_marks(
-                dwg,
-                tile_x - margin_mm,
-                tile_y - margin_mm,
-                page_w,
-                page_h,
-                row,
-                col,
-                rows,
-                cols,
-                show_page_labels,
-                show_overlap_arrows,
-                arrow_size_mm,
-            )
+            if show_page_labels:
+                label_style = {"fill": "black", "font_size": "10px"}
+                label = f"R{row + 1}C{col + 1}"
+                dwg.add(dwg.text(label, insert=(tile_x - margin_mm + 4, tile_y - margin_mm + 12), **label_style))
             _add_page_border(
                 dwg,
                 tile_x - margin_mm,

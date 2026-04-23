@@ -1,6 +1,7 @@
 from utils.points import build_points
 from render.svg_rendering import render_svg
 
+
 def get_base_shapes():
     pts = build_points()
     print(f"Available dart ease: {pts['available_dart_ease']} mm")
@@ -59,6 +60,7 @@ def get_base_shapes():
 my_shapes = get_base_shapes()
 render_svg(
     my_shapes,
+    filename="generated/pattern.svg",
     show_dashes=True,
     show_points=True,
     show_numbers=True,

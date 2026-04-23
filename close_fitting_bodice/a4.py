@@ -31,8 +31,6 @@ if __name__ == "__main__":
         notch_count=3,
         notch_inset_mm=1.5,
         show_page_labels=True,
-        show_overlap_arrows=True,
-        arrow_size_mm=4,
         show_page_border=True,
         page_border_color="black",
         page_border_width_mm=0.6,

@@ -17,10 +17,10 @@ def get_bounds(shapes):
 
 def render_svg(
         shapes,
-        filename="generated/pattern.svg",
-        show_dashes=True,
-        show_points=True,
-        show_numbers=True,
+        filename,
+        show_dashes,
+        show_points,
+        show_numbers,
 ):
     minx, miny, maxx, maxy = get_bounds(shapes)
 

@@ -1,5 +1,5 @@
 from utils.points import build_points
-from svg_rendering import render_svg
+from render.svg_rendering import render_svg
 
 
 def get_back_shapes():

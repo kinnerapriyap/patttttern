@@ -1,22 +1,22 @@
 # Measurements in mm
-size = 14
+size = 18
 
-bust = 880
+bust = 1000
 bust_ease = 50
 bust_to_dart = 25
-waist = 700
+waist = 840
 waist_ease = 30
-hip = 1000
+hip = 1040
 nape_to_waist = 410
 waist_to_hip = 206
 armscye_depth = 210
-neck_size = 370
-shoulder = 122.5
+neck_size = 400
+shoulder = 130
 shoulder_dart = 10
-back_width = 344
+back_width = 374
 back_width_ease = 5
-dart = 70
-chest = 324
+dart = 88
+chest = 360
 
 front_dart = 45
 back_dart = 35

@@ -1,5 +1,5 @@
-from close_fitting_bodice.back import get_back_shapes
-from close_fitting_bodice.front import get_front_shapes
+from close_fitting_bodice.base.back import get_back_shapes
+from close_fitting_bodice.base.front import get_front_shapes
 from render.a4_rendering import render_svg_a4_pages
 
 

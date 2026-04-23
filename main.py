@@ -1,4 +1,4 @@
-from points import build_points
+from utils.points import build_points
 from svg_rendering import render_svg
 
 def get_base_shapes():

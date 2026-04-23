@@ -5,7 +5,7 @@ import svgwrite
 
 from back import get_back_shapes
 from front import get_front_shapes
-from shape_drawing import draw_shapes
+from utils.shape_drawing import draw_shapes
 from svg_rendering import get_bounds
 
 

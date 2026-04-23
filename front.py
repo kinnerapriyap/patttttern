@@ -1,4 +1,4 @@
-from points import build_points, named_points_from_keys
+from utils.points import build_points
 from svg_rendering import render_svg
 
 

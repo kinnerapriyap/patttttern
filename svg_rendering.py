@@ -1,6 +1,6 @@
 import svgwrite
 
-from shape_drawing import build_french_curve_path, draw_shapes
+from utils.shape_drawing import draw_shapes
 
 
 def get_bounds(shapes):

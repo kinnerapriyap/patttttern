@@ -1,8 +1,6 @@
 from math import sqrt
 
-import measurements as m
-from utils import reflect_point_across_line
-
+from . import measurements as m
 
 def named_points_from_keys(points, keys):
     return {
@@ -10,6 +8,16 @@ def named_points_from_keys(points, keys):
         for key in keys
         if key.startswith("p") and key in points
     }
+
+def reflect_point_across_line(p, a, b):
+    dx, dy = [b[0] - a[0], b[1] - a[1]]
+    den = dx * dx + dy * dy
+    if den == 0:
+        return [p[0], p[1]]
+
+    t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / den
+    q = [a[0] + t * dx, a[1] + t * dy]
+    return [2 * q[0] - p[0], 2 * q[1] - p[1]]
 
 
 def build_points():
@@ -93,7 +101,7 @@ def build_points():
         },
         "available_dart_ease": d_available_dart_ease,
         "used_all_dart_ease": (
-                m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart == d_available_dart_ease
+            m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart == d_available_dart_ease
         ),
     }
     return {**point_values, **metadata}

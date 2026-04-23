@@ -2,7 +2,7 @@ from close_fitting_bodice import pts
 from render.svg_rendering import render_svg
 
 
-def get_front_shapes():
+def get_one_dart_front_shapes():
     return [
         ("curve", pts["p20"], pts["p21"], 0.45),
         ("line", pts["p21"], pts["p8"]),
@@ -25,6 +25,7 @@ def get_front_shapes():
 
 
 if __name__ == "__main__":
-    my_shapes = get_front_shapes()
-    render_svg(my_shapes, filename="../../generated/front.svg", show_dashes=True, show_points=True, show_numbers=False)
-    print("Generated in front.svg")
+    my_shapes = get_one_dart_front_shapes()
+    render_svg(my_shapes, filename="../generated/one_dart_front.svg", show_dashes=True, show_points=True,
+               show_numbers=False)
+    print("Generated in one_dart_front.svg")

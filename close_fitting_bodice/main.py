@@ -1,9 +1,8 @@
-from utils.points import build_points
+from close_fitting_bodice import pts
 from render.svg_rendering import render_svg
 
 
 def get_base_shapes():
-    pts = build_points()
     print(f"Available dart ease: {pts['available_dart_ease']} mm")
     print(f"Used all dart ease? {pts['used_all_dart_ease']}")
 

@@ -1,9 +1,8 @@
-from utils.points import build_points
+from close_fitting_bodice import pts
 from render.svg_rendering import render_svg
 
 
 def get_back_shapes():
-    pts = build_points()
     return [
         ("curve", pts["p9"], pts["p1"], 0.45),
         ("line", pts["p12_2"], pts["p9"]),

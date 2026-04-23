@@ -2,13 +2,6 @@ from math import sqrt
 
 from . import measurements as m
 
-def named_points_from_keys(points, keys):
-    return {
-        key[1:]: points[key]
-        for key in keys
-        if key.startswith("p") and key in points
-    }
-
 def reflect_point_across_line(p, a, b):
     dx, dy = [b[0] - a[0], b[1] - a[1]]
     den = dx * dx + dy * dy

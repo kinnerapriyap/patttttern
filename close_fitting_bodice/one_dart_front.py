@@ -1,27 +1,37 @@
 from close_fitting_bodice import pts
 from render.svg_rendering import render_svg
-from utils.rotation import angle_between, rotate_shapes
+from utils.rotation import angle_between, rotate_point
 
 
-def get_one_dart_front_center():
-    return [
-        ("polyline", [pts["p21"], pts["p6"], pts["p24_2"], pts["p26"], pts["p20"]]),
-        ("curve", pts["p20"], pts["p21"], 0.45),
+def get_rotated_one_dart_front_points():
+    angle = angle_between([pts["p26"], pts["p27"]], [pts["p26"], pts["p20"]])
+
+    point_side_keys = [
+        "p32", "p33_2", "p24_1", "p27", "p11",
+        "p16", "p14a", "p22a", "p31", "p30",
     ]
+    rotated_points = {
+        key: tuple(rotate_point(pts[key], pts["p26"], angle))
+        for key in point_side_keys
+    }
 
-
-def get_one_dart_front_side():
-    return [
-        ("polyline", [pts["p32"], pts["p33_2"], pts["p24_1"], pts["p26"], pts["p27"], pts["p30"]]),
-        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"], pts["p22a"], pts["p31"], pts["p30"]], 6.0),
-    ]
+    point_center_keys = ["p21", "p6", "p24_2", "p26"]
+    return rotated_points | {key: pts[key] for key in point_center_keys}
 
 
 def get_one_dart_front_shapes():
-    angle = angle_between([pts["p26"], pts["p27"]], [pts["p26"], pts["p20"]])
-    rotated = rotate_shapes(get_one_dart_front_side(), pts["p26"], angle)
-    final = get_one_dart_front_center() + rotated
-    return final
+    rotated = get_rotated_one_dart_front_points()
+    return [
+        ("circle", rotated),
+        ("curve", pts["p20"], pts["p21"], 0.45),
+        ("polyline",
+         [pts["p21"], pts["p6"], pts["p24_2"], pts["p26"], rotated["p24_1"], rotated["p33_2"], rotated["p32"]]),
+        ("french_curve",
+         [rotated["p11"], rotated["p16"], rotated["p14a"], rotated["p32"], rotated["p22a"], rotated["p31"],
+          rotated["p30"]], 6.0),
+        ("line", rotated["p27"], rotated["p30"]),
+
+    ]
 
 
 if __name__ == "__main__":
@@ -31,6 +41,6 @@ if __name__ == "__main__":
         filename="../generated/one_dart_front.svg",
         show_dashes=True,
         show_points=True,
-        show_numbers=False
+        show_numbers=True,
     )
     print("Generated in one_dart_front.svg")

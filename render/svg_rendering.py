@@ -27,6 +27,7 @@ def render_svg(
         show_dashes,
         show_points,
         show_numbers,
+        show_control_square,
 ):
     Path(filename).parent.mkdir(parents=True, exist_ok=True)
 
@@ -50,5 +51,18 @@ def render_svg(
         show_points=show_points,
         show_numbers=show_numbers,
     )
+
+    if show_control_square:
+        square_size = 50
+        square_x = minx - padding + 5
+        square_y = miny - padding + 5
+        square_style = {"stroke": "pink", "stroke_width": 1, "fill": "none"}
+        dwg.add(
+            dwg.rect(
+                insert=(square_x, square_y),
+                size=(square_size, square_size),
+                **square_style,
+            )
+        )
 
     dwg.save()

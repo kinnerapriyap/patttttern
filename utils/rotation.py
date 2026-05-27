@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import math
-from typing import Iterable
+from typing import Iterable, Union
 from math import acos, degrees, sqrt
 
-Point = tuple[float, float] | list[float]
+Point = Union[tuple[float, float], list[float]]
 Shape = tuple
 
 

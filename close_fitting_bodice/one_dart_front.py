@@ -1,5 +1,4 @@
 from close_fitting_bodice import pts
-from render.dxf_rendering import render_dxf
 from render.svg_rendering import render_svg
 from utils.paths import generated_file
 from utils.rotation import angle_between, rotate_point

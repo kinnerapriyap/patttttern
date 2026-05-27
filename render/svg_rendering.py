@@ -1,4 +1,5 @@
 import svgwrite
+from pathlib import Path
 
 from utils.shape_drawing import draw_shapes
 
@@ -27,6 +28,8 @@ def render_svg(
         show_points,
         show_numbers,
 ):
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
+
     minx, miny, maxx, maxy = get_bounds(shapes)
 
     padding = 20

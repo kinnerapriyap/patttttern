@@ -1,5 +1,6 @@
 from close_fitting_bodice import pts
 from render.svg_rendering import render_svg
+from utils.paths import generated_file
 from utils.rotation import angle_between, rotate_point
 
 
@@ -31,11 +32,12 @@ def get_one_dart_front_shapes():
 
 if __name__ == "__main__":
     my_shapes = get_one_dart_front_shapes()
+    output_file = generated_file("one_dart_front.svg")
     render_svg(
         my_shapes,
-        filename="../generated/one_dart_front.svg",
+        filename=str(output_file),
         show_dashes=True,
         show_points=True,
         show_numbers=True,
     )
-    print("Generated in one_dart_front.svg")
+    print(f"Generated in {output_file}")

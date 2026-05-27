@@ -2,9 +2,10 @@ from close_fitting_bodice.base.back import get_back_shapes
 from close_fitting_bodice.base.front import get_front_shapes
 from close_fitting_bodice.one_dart_front import get_one_dart_front_shapes
 from render.a4_rendering import render_svg_a4_pages
+from utils.paths import GENERATED_DIR
 
 
-def render_all_a4_patterns(output_dir=".", **kwargs):
+def render_all_a4_patterns(output_dir=GENERATED_DIR, **kwargs):
     return {
         "front": render_svg_a4_pages(
             get_front_shapes(),
@@ -29,7 +30,6 @@ def render_all_a4_patterns(output_dir=".", **kwargs):
 
 if __name__ == "__main__":
     results = render_all_a4_patterns(
-        output_dir="../generated/",
         show_dashes=True,
         show_points=False,
         show_numbers=False,

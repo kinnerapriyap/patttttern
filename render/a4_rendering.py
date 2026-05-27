@@ -138,6 +138,8 @@ def render_svg_a4_pages(
     stem = os.path.splitext(base_filename)[0]
     generated_files = []
 
+    os.makedirs(output_dir, exist_ok=True)
+
     for row in range(rows):
         for col in range(cols):
             tile_x = content_minx + col * step_x

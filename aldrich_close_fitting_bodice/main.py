@@ -5,7 +5,6 @@ from utils.paths import generated_file
 
 def get_base_shapes():
     print(f"Available dart ease: {pts['available_dart_ease']} mm")
-    print(f"Used dart ease: {pts['used_dart_ease']} mm")
     print(f"Unused dart ease: {pts['available_dart_ease'] - pts['used_dart_ease']} mm")
 
     return [

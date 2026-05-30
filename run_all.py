@@ -8,6 +8,7 @@ import sys
 MODULES = [
     "aldrich_close_fitting_bodice.main",
     "aldrich_close_fitting_bodice.one_dart_front",
+    "aldrich_close_fitting_bodice.two_dart_front",
     "aldrich_close_fitting_bodice.base.front",
     "aldrich_close_fitting_bodice.base.back",
 ]

@@ -1,11 +1,12 @@
-from close_fitting_bodice import pts
+from aldrich_close_fitting_bodice import pts
 from render.svg_rendering import render_svg
 from utils.paths import generated_file
 
 
 def get_base_shapes():
     print(f"Available dart ease: {pts['available_dart_ease']} mm")
-    print(f"Used all dart ease? {pts['used_all_dart_ease']}")
+    print(f"Used dart ease: {pts['used_dart_ease']} mm")
+    print(f"Unused dart ease: {pts['available_dart_ease'] - pts['used_dart_ease']} mm")
 
     return [
         ("circle", pts["named_points"]),
@@ -66,6 +67,7 @@ render_svg(
     show_dashes=True,
     show_points=True,
     show_numbers=True,
+    show_control_square=True,
 )
 
 print(f"Generated in {output_file}")

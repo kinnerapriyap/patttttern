@@ -3,7 +3,7 @@ size = 18
 
 bust = 1000
 bust_ease = 50
-bust_to_dart = 25
+bust_to_dart = 40
 waist = 840
 waist_ease = 30
 hip = 1040

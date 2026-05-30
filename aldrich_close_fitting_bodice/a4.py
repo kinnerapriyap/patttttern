@@ -1,6 +1,6 @@
-from close_fitting_bodice.base.back import get_back_shapes
-from close_fitting_bodice.base.front import get_front_shapes
-from close_fitting_bodice.one_dart_front import get_one_dart_front_shapes
+from aldrich_close_fitting_bodice.base.back import get_back_shapes
+from aldrich_close_fitting_bodice.base.front import get_front_shapes
+from aldrich_close_fitting_bodice.one_dart_front import get_one_dart_front_shapes
 from render.a4_rendering import render_svg_a4_pages
 from utils.paths import GENERATED_DIR
 

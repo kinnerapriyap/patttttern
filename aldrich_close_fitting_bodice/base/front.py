@@ -1,4 +1,4 @@
-from close_fitting_bodice import pts
+from aldrich_close_fitting_bodice import pts
 from render.svg_rendering import render_svg
 from utils.paths import generated_file
 
@@ -28,5 +28,5 @@ def get_front_shapes():
 if __name__ == "__main__":
     my_shapes = get_front_shapes()
     output_file = generated_file("front.svg")
-    render_svg(my_shapes, filename=str(output_file), show_dashes=True, show_points=True, show_numbers=False)
+    render_svg(my_shapes, filename=str(output_file), show_dashes=False, show_points=False, show_numbers=False, show_control_square=False)
     print(f"Generated in {output_file}")

@@ -1,4 +1,4 @@
-from close_fitting_bodice import pts
+from aldrich_close_fitting_bodice import pts
 from render.svg_rendering import render_svg
 from utils.paths import generated_file
 
@@ -19,6 +19,7 @@ def get_back_shapes():
         ("line", pts["p17"], pts["p18_2"]),
         ("line", pts["p18_1"], pts["p19"]),
         ("line", pts["p18_2"], pts["p19"]),
+        ("line", pts["p5"], pts["p33"]),
 
         ("dash", pts["p5"], pts["p33"]),
         ("dash", pts["p2"], pts["p32"]),
@@ -30,5 +31,5 @@ def get_back_shapes():
 if __name__ == "__main__":
     my_shapes = get_back_shapes()
     output_file = generated_file("back.svg")
-    render_svg(my_shapes, filename=str(output_file), show_dashes=True, show_points=True, show_numbers=False)
+    render_svg(my_shapes, filename=str(output_file), show_dashes=False, show_points=False, show_numbers=False, show_control_square=True)
     print(f"Generated in {output_file}")

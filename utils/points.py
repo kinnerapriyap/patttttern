@@ -93,8 +93,8 @@ def build_points():
             if name.startswith("p")
         },
         "available_dart_ease": d_available_dart_ease,
-        "used_all_dart_ease": (
-            m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart == d_available_dart_ease
+        "used_dart_ease": (
+            m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart
         ),
     }
     return {**point_values, **metadata}

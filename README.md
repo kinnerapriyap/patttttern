@@ -21,3 +21,9 @@ python -m close_fitting_bodice.base.front
 python -m close_fitting_bodice.base.back
 python -m close_fitting_bodice.a4
 ```
+
+Run all pattern generators from the repository root:
+
+```bash
+python run_all.py
+```

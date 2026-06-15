@@ -1,0 +1,43 @@
+from aldrich_close_fitting_bodice import pts
+from render.svg_rendering import render_svg
+from utils.paths import generated_file
+from utils.rotation import angle_between, rotate_point
+
+
+def get_rotated_shoulder_dart_front_points():
+    angle = angle_between([pts["p26"], pts["p24_2"]], [pts["p26"], pts["p24_1"]])
+
+    point_side_keys = ["p32", "p33_2", "p27", "p14a", "p22a", "p31", "p30"]
+    rotated_points = {
+        key: tuple(rotate_point(pts[key], pts["p26"], -angle))
+        for key in point_side_keys
+    }
+
+    point_center_keys = ["p20", "p21", "p6", "p24_2", "p26"]
+    return rotated_points | {key: pts[key] for key in point_center_keys}
+
+
+def get_shoulder_dart_front_shapes():
+    rotated = get_rotated_shoulder_dart_front_points()
+    return [
+        ("circle", rotated),
+        ("curve", pts["p20"], pts["p21"], 0.45),
+        ("polyline",
+         [pts["p21"], pts["p6"], pts["p24_2"], rotated["p33_2"], rotated["p32"]]),
+        ("french_curve", [rotated["p14a"], rotated["p32"], rotated["p22a"], rotated["p31"], rotated["p30"]], 6.0),
+        ("polyline", [rotated["p30"], rotated["p27"], rotated["p26"], pts["p20"]]),
+
+    ]
+
+
+if __name__ == "__main__":
+    my_shapes = get_shoulder_dart_front_shapes()
+    output_file = generated_file("shoulder_dart_front.svg")
+    render_svg(
+        my_shapes,
+        filename=str(output_file),
+        show_dashes=True,
+        show_points=True,
+        show_numbers=True,
+    )
+    print(f"Generated in {output_file}")

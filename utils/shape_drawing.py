@@ -37,7 +37,7 @@ def draw_shapes(
 ):
     style = style or {"stroke": "pink", "stroke_width": 1, "fill": "none"}
     dash_style = dash_style or {"stroke": "pink", "stroke_width": 0.5, "fill": "none", "stroke_dasharray": "5,5"}
-    text_style = text_style or {"fill": "purple", "font_size": "8px"}
+    text_style = text_style or {"fill": "orange", "font_size": "8px"}
 
     for shape in shapes:
         kind = shape[0]

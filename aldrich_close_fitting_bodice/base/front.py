@@ -5,6 +5,7 @@ from utils.paths import generated_file
 
 def get_front_shapes():
     return [
+        ("circle", pts["named_points"]),
         ("curve", pts["p20"], pts["p21"], 0.45),
         ("line", pts["p21"], pts["p8"]),
         ("line", pts["p8"], pts["p36"]),
@@ -28,5 +29,11 @@ def get_front_shapes():
 if __name__ == "__main__":
     my_shapes = get_front_shapes()
     output_file = generated_file("front.svg")
-    render_svg(my_shapes, filename=str(output_file), show_dashes=False, show_points=False, show_numbers=False, show_control_square=False)
+    render_svg(
+        my_shapes, 
+        filename=str(output_file), 
+        show_dashes=False, 
+        show_points=True, 
+        show_numbers=True
+    )
     print(f"Generated in {output_file}")

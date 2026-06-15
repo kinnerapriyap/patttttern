@@ -31,5 +31,11 @@ def get_back_shapes():
 if __name__ == "__main__":
     my_shapes = get_back_shapes()
     output_file = generated_file("back.svg")
-    render_svg(my_shapes, filename=str(output_file), show_dashes=False, show_points=False, show_numbers=False, show_control_square=True)
+    render_svg(
+        my_shapes, 
+        filename=str(output_file),
+        show_dashes=False, 
+        show_points=False, 
+        show_numbers=False
+    )
     print(f"Generated in {output_file}")

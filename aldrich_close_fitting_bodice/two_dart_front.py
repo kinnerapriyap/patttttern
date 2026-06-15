@@ -46,6 +46,5 @@ if __name__ == "__main__":
         show_dashes=True,
         show_points=True,
         show_numbers=True,
-        show_control_square=True,
     )
     print(f"Generated in {output_file}")

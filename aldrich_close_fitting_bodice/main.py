@@ -66,7 +66,6 @@ render_svg(
     show_dashes=True,
     show_points=True,
     show_numbers=True,
-    show_control_square=False,
 )
 
 print(f"Generated in {output_file}")

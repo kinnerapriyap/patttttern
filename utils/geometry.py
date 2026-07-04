@@ -13,3 +13,17 @@ def get_horizontal_intersection_with_line(y: float, line1: Point, line2: Point) 
         return (x1, y)
     t = (y - y1) / (y2 - y1)
     return (x1 + t * (x2 - x1), y)
+
+def get_perpendicular_intersection_with_line(point: Point, line1: Point, line2: Point) -> Point:
+    """Return the intersection of a perpendicular line through point with the line through line1 and line2."""
+    x0, y0 = point
+    x1, y1 = line1
+    x2, y2 = line2
+
+    dx = x2 - x1
+    dy = y2 - y1
+    if dx == 0 and dy == 0:
+        raise ValueError("line1 and line2 cannot be the same point")
+
+    t = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)
+    return (x1 + t * dx, y1 + t * dy)

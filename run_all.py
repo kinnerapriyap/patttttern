@@ -11,6 +11,8 @@ MODULES = [
     "aldrich_close_fitting_bodice.two_dart_front",
     "aldrich_close_fitting_bodice.base.front",
     "aldrich_close_fitting_bodice.base.back",
+    "aldrich_close_fitting_bodice.designs.shoulder_dart_front",
+    "aldrich_close_fitting_bodice.designs.v_side_front",
 ]
 
 

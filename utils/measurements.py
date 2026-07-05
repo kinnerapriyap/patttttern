@@ -24,14 +24,21 @@ front_side_dart = 10
 back_side_dart = 10
 
 size_above_14 = max(size - 14, 0)
-distance_from_p14 = 22.5 if 6 <= size <= 8 \
-    else 25 if 10 <= size <= 14 \
-    else 30 if 16 <= size <= 20 \
-    else 35 if 22 <= size <= 26 \
-    else 30
-distance_from_p22 = 17.5 if 6 <= size <= 8 \
-    else 20 if 10 <= size <= 14 \
-    else 25 if 16 <= size <= 20 \
-    else 30 if 22 <= size <= 26 \
-    else 25
-
+distance_from_p14 = (
+    22.5
+    if 6 <= size <= 8
+    else (
+        25
+        if 10 <= size <= 14
+        else 30 if 16 <= size <= 20 else 35 if 22 <= size <= 26 else 30
+    )
+)
+distance_from_p22 = (
+    17.5
+    if 6 <= size <= 8
+    else (
+        20
+        if 10 <= size <= 14
+        else 25 if 16 <= size <= 20 else 30 if 22 <= size <= 26 else 25
+    )
+)

@@ -42,3 +42,8 @@ distance_from_p22 = (
         else 25 if 16 <= size <= 20 else 30 if 22 <= size <= 26 else 25
     )
 )
+
+skirt_length = 600
+skirt_hip_ease = 15
+skirt_back_waist_ease = 42.5
+skirt_front_waist_ease = 22.5

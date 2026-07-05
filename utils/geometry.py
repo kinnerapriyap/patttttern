@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from math import hypot
 from typing import Sequence, Tuple
 
 Point = Tuple[float, float]
@@ -43,3 +44,49 @@ def reflect_point_across_line(p, a, b):
     t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / den
     q = [a[0] + t * dx, a[1] + t * dy]
     return [2 * q[0] - p[0], 2 * q[1] - p[1]]
+
+
+def divide_segment_into_parts(start: Point, end: Point, parts: int) -> list[Point]:
+    """Return equally spaced points dividing a segment into the requested number of parts."""
+    if parts <= 1:
+        return []
+
+    step_x = (end[0] - start[0]) / parts
+    step_y = (end[1] - start[1]) / parts
+    return [(start[0] + step_x * i, start[1] + step_y * i) for i in range(1, parts)]
+
+
+def get_point_on_line_at_distance(line1: Point, line2: Point, distance: float) -> Point:
+    """Return a point on the line from line1 to line2 at the given distance from line1."""
+    dx = line2[0] - line1[0]
+    dy = line2[1] - line1[1]
+    length = hypot(dx, dy)
+    if length == 0:
+        raise ValueError("line1 and line2 cannot be the same point")
+
+    ratio = distance / length
+    return (line1[0] + dx * ratio, line1[1] + dy * ratio)
+
+
+def get_midpoint(line1: Point, line2: Point) -> Point:
+    """Return the midpoint between two points."""
+    return ((line1[0] + line2[0]) / 2, (line1[1] + line2[1]) / 2)
+
+
+def get_perpendicular_point_from_line(
+    line1: Point, line2: Point, distance: float
+) -> Point:
+    """Return a point offset perpendicularly from the line defined by line1 and line2."""
+    dx = line2[0] - line1[0]
+    dy = line2[1] - line1[1]
+    if dx == 0 and dy == 0:
+        raise ValueError("line1 and line2 cannot be the same point")
+
+    length = hypot(dx, dy)
+    if length == 0:
+        raise ValueError("line1 and line2 cannot be the same point")
+
+    normal_x = -dy / length
+    normal_y = dx / length
+
+    return (line1[0] + normal_x * distance, line1[1] + normal_y * distance)

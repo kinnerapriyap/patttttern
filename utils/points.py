@@ -1,6 +1,9 @@
 from math import sqrt
 
-from utils.geometry import reflect_point_across_line
+from utils.geometry import (
+    get_midpoint,
+    reflect_point_across_line,
+)
 
 from . import measurements as m
 
@@ -20,13 +23,13 @@ def build_points():
     p9 = [(m.neck_size / 5) - 2, 0]
     p10 = [0, p1[1] + (m.armscye_depth / 5) - 7]
     p11 = [p9[0] + sqrt((m.shoulder + m.shoulder_dart) ** 2 - p10[1] ** 2), p10[1]]
-    p12 = [(p9[0] + p11[0]) / 2, (p9[1] + p11[1]) / 2]
+    p12 = get_midpoint(p9, p11)
     p12a = [p12[0], p12[1] + 50]
     p13 = [p12[0] - 10, p12a[1]]
     p14 = [m.back_width / 2 + m.back_width_ease, p2[1]]
     p15 = [p14[0], p10[1]]
-    p16 = [(p14[0] + p15[0]) / 2, (p14[1] + p15[1]) / 2]
-    p17 = [(p2[0] + p14[0]) / 2, (p2[1] + p14[1]) / 2]
+    p16 = get_midpoint(p14, p15)
+    p17 = get_midpoint(p2, p14)
     p18 = [p17[0], p5[1]]
     p19 = [p17[0], p7[1]]
 
@@ -34,7 +37,7 @@ def build_points():
     p20 = [p4[0] - (m.neck_size / 5 - 7), p4[1]]
     p21 = [p4[0], p4[1] + m.neck_size / 5 - 2]
     p22 = [p3[0] - (m.chest / 2 + m.dart / 2), p3[1]]
-    p23 = [(p3[0] + p22[0]) / 2, (p3[1] + p22[1]) / 2]
+    p23 = get_midpoint(p3, p22)
     p24 = [p23[0], p6[1]]
     p25 = [p23[0], p8[1]]
     p26 = [p23[0], p23[1] + m.bust_to_dart]
@@ -43,7 +46,7 @@ def build_points():
     p29 = [p28[0] + 100, p28[1]]
     p30 = [p27[0] - sqrt(m.shoulder**2 - (p29[1] - p27[1]) ** 2), p29[1]]
     p31 = [p22[0], p22[1] - ((p3[1] - p21[1]) / 3)]
-    p32 = [(p14[0] + p22[0]) / 2, (p14[1] + p22[1]) / 2]
+    p32 = get_midpoint(p14, p22)
     p33 = [p32[0], p5[1]]
     p34 = [p32[0], p7[1]]
 

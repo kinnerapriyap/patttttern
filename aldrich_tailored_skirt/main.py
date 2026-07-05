@@ -45,7 +45,7 @@ def get_base_shapes():
 
 
 my_shapes = get_base_shapes()
-output_file = generated_file("tailored_skirt.svg")
+output_file = generated_file("aldrich_tailored_skirt/base.svg")
 
 render_svg(
     my_shapes,

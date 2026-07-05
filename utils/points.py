@@ -1,16 +1,8 @@
 from math import sqrt
 
+from utils.geometry import reflect_point_across_line
+
 from . import measurements as m
-
-def reflect_point_across_line(p, a, b):
-    dx, dy = [b[0] - a[0], b[1] - a[1]]
-    den = dx * dx + dy * dy
-    if den == 0:
-        return [p[0], p[1]]
-
-    t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / den
-    q = [a[0] + t * dx, a[1] + t * dy]
-    return [2 * q[0] - p[0], 2 * q[1] - p[1]]
 
 
 def build_points():
@@ -49,14 +41,20 @@ def build_points():
     p27 = [p20[0] - m.dart, p20[1]]
     p28 = [p11[0], p11[1] + 15]
     p29 = [p28[0] + 100, p28[1]]
-    p30 = [p27[0] - sqrt(m.shoulder ** 2 - (p29[1] - p27[1]) ** 2), p29[1]]
+    p30 = [p27[0] - sqrt(m.shoulder**2 - (p29[1] - p27[1]) ** 2), p29[1]]
     p31 = [p22[0], p22[1] - ((p3[1] - p21[1]) / 3)]
     p32 = [(p14[0] + p22[0]) / 2, (p14[1] + p22[1]) / 2]
     p33 = [p32[0], p5[1]]
     p34 = [p32[0], p7[1]]
 
-    p14a = [p14[0] + (m.distance_from_p14 / sqrt(2)), p14[1] - (m.distance_from_p14 / sqrt(2))]
-    p22a = [p22[0] - (m.distance_from_p22 / sqrt(2)), p22[1] - (m.distance_from_p22 / sqrt(2))]
+    p14a = [
+        p14[0] + (m.distance_from_p14 / sqrt(2)),
+        p14[1] - (m.distance_from_p14 / sqrt(2)),
+    ]
+    p22a = [
+        p22[0] - (m.distance_from_p22 / sqrt(2)),
+        p22[1] - (m.distance_from_p22 / sqrt(2)),
+    ]
 
     d12_11 = sqrt((p11[0] - p12[0]) ** 2 + (p11[1] - p12[1]) ** 2)
     p12_1 = [
@@ -82,9 +80,7 @@ def build_points():
     p36 = [p8[0] - (m.hip / 4), p8[1]]
 
     point_values = {
-        name: tuple(value)
-        for name, value in locals().items()
-        if name.startswith("p")
+        name: tuple(value) for name, value in locals().items() if name.startswith("p")
     }
     metadata: dict[str, object] = {
         "named_points": {

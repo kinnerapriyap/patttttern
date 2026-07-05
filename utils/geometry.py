@@ -5,7 +5,9 @@ from typing import Sequence, Tuple
 Point = Tuple[float, float]
 
 
-def get_horizontal_intersection_with_line(y: float, line1: Point, line2: Point) -> Point:
+def get_horizontal_intersection_with_line(
+    y: float, line1: Point, line2: Point
+) -> Point:
     """Return the intersection of a horizontal line at y with the line through line1 and line2."""
     x1, y1 = line1
     x2, y2 = line2
@@ -14,7 +16,10 @@ def get_horizontal_intersection_with_line(y: float, line1: Point, line2: Point) 
     t = (y - y1) / (y2 - y1)
     return (x1 + t * (x2 - x1), y)
 
-def get_perpendicular_intersection_with_line(point: Point, line1: Point, line2: Point) -> Point:
+
+def get_perpendicular_intersection_with_line(
+    point: Point, line1: Point, line2: Point
+) -> Point:
     """Return the intersection of a perpendicular line through point with the line through line1 and line2."""
     x0, y0 = point
     x1, y1 = line1
@@ -27,3 +32,14 @@ def get_perpendicular_intersection_with_line(point: Point, line1: Point, line2: 
 
     t = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)
     return (x1 + t * dx, y1 + t * dy)
+
+
+def reflect_point_across_line(p, a, b):
+    dx, dy = [b[0] - a[0], b[1] - a[1]]
+    den = dx * dx + dy * dy
+    if den == 0:
+        return [p[0], p[1]]
+
+    t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / den
+    q = [a[0] + t * dx, a[1] + t * dy]
+    return [2 * q[0] - p[0], 2 * q[1] - p[1]]

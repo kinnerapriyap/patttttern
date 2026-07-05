@@ -11,7 +11,19 @@ def get_front_shapes():
         ("line", pts["p8"], pts["p36"]),
         ("line", pts["p33_2"], pts["p36"]),
         ("line", pts["p32"], pts["p33_2"]),
-        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"], pts["p22a"], pts["p31"], pts["p30"]], 6.0),
+        (
+            "french_curve",
+            [
+                pts["p11"],
+                pts["p16"],
+                pts["p14a"],
+                pts["p32"],
+                pts["p22a"],
+                pts["p31"],
+                pts["p30"],
+            ],
+            6.0,
+        ),
         ("line", pts["p27"], pts["p30"]),
         ("line", pts["p27"], pts["p26"]),
         ("line", pts["p20"], pts["p26"]),
@@ -19,7 +31,6 @@ def get_front_shapes():
         ("line", pts["p26"], pts["p24_2"]),
         ("line", pts["p24_1"], pts["p25"]),
         ("line", pts["p24_2"], pts["p25"]),
-
         ("dash", pts["p6"], pts["p33"]),
         ("dash", pts["p3"], pts["p32"]),
         ("dash", pts["p26"], pts["p25"]),
@@ -28,12 +39,12 @@ def get_front_shapes():
 
 if __name__ == "__main__":
     my_shapes = get_front_shapes()
-    output_file = generated_file("front.svg")
+    output_file = generated_file("aldrich_close_fitting_bodice/base/front.svg")
     render_svg(
-        my_shapes, 
-        filename=str(output_file), 
-        show_dashes=False, 
-        show_points=True, 
-        show_numbers=True
+        my_shapes,
+        filename=str(output_file),
+        show_dashes=False,
+        show_points=True,
+        show_numbers=True,
     )
     print(f"Generated in {output_file}")

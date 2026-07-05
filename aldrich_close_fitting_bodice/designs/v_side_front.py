@@ -73,7 +73,7 @@ def get_v_side_front_shapes():
 
 if __name__ == "__main__":
     my_shapes = get_v_side_front_shapes()
-    output_file = generated_file("v_side_front.svg")
+    output_file = generated_file("aldrich_close_fitting_bodice/v_side_front.svg")
     render_svg(
         my_shapes,
         filename=str(output_file),

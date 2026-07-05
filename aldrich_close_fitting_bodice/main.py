@@ -49,16 +49,26 @@ def get_base_shapes():
         ("line", pts["p32"], pts["p33_2"]),
         ("line", pts["p33_1"], pts["p35"]),
         ("line", pts["p33_2"], pts["p36"]),
-
         ("curve", pts["p20"], pts["p21"], 0.45),
         ("curve", pts["p9"], pts["p1"], 0.45),
-
-        ("french_curve", [pts["p11"], pts["p16"], pts["p14a"], pts["p32"], pts["p22a"], pts["p31"], pts["p30"]], 6),
+        (
+            "french_curve",
+            [
+                pts["p11"],
+                pts["p16"],
+                pts["p14a"],
+                pts["p32"],
+                pts["p22a"],
+                pts["p31"],
+                pts["p30"],
+            ],
+            6,
+        ),
     ]
 
 
 my_shapes = get_base_shapes()
-output_file = generated_file("pattern.svg")
+output_file = generated_file("aldrich_close_fitting_bodice/base.svg")
 
 render_svg(
     my_shapes,

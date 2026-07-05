@@ -22,17 +22,28 @@ def get_shoulder_dart_front_shapes():
     return [
         ("circle", rotated),
         ("curve", pts["p20"], pts["p21"], 0.45),
-        ("polyline",
-         [pts["p21"], pts["p6"], pts["p24_2"], rotated["p33_2"], rotated["p32"]]),
-        ("french_curve", [rotated["p14a"], rotated["p32"], rotated["p22a"], rotated["p31"], rotated["p30"]], 6.0),
+        (
+            "polyline",
+            [pts["p21"], pts["p6"], pts["p24_2"], rotated["p33_2"], rotated["p32"]],
+        ),
+        (
+            "french_curve",
+            [
+                rotated["p14a"],
+                rotated["p32"],
+                rotated["p22a"],
+                rotated["p31"],
+                rotated["p30"],
+            ],
+            6.0,
+        ),
         ("polyline", [rotated["p30"], rotated["p27"], rotated["p26"], pts["p20"]]),
-
     ]
 
 
 if __name__ == "__main__":
     my_shapes = get_shoulder_dart_front_shapes()
-    output_file = generated_file("shoulder_dart_front.svg")
+    output_file = generated_file("aldrich_close_fitting_bodice/shoulder_dart_front.svg")
     render_svg(
         my_shapes,
         filename=str(output_file),

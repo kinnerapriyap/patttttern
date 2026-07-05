@@ -90,3 +90,42 @@ def get_perpendicular_point_from_line(
     normal_y = dx / length
 
     return (line1[0] + normal_x * distance, line1[1] + normal_y * distance)
+
+
+def get_french_curve_length(points: Sequence[Point], k: float) -> float:
+    """Estimate the length of a french-curve path from its control points."""
+    if len(points) < 2:
+        return 0.0
+
+    def bezier_point(p0: Point, p1: Point, p2: Point, p3: Point, t: float) -> Point:
+        mt = 1 - t
+        return (
+            mt * mt * mt * p0[0]
+            + 3 * mt * mt * t * p1[0]
+            + 3 * mt * t * t * p2[0]
+            + t * t * t * p3[0],
+            mt * mt * mt * p0[1]
+            + 3 * mt * mt * t * p1[1]
+            + 3 * mt * t * t * p2[1]
+            + t * t * t * p3[1],
+        )
+
+    total = 0.0
+    samples = 100
+    for i in range(len(points) - 1):
+        p0 = points[i - 1] if i > 0 else points[i]
+        p1 = points[i]
+        p2 = points[i + 1]
+        p3 = points[i + 2] if i + 2 < len(points) else points[i + 1]
+
+        c1 = (p1[0] + (p2[0] - p0[0]) / k, p1[1] + (p2[1] - p0[1]) / k)
+        c2 = (p2[0] - (p3[0] - p1[0]) / k, p2[1] - (p3[1] - p1[1]) / k)
+
+        prev = bezier_point(p1, c1, c2, p2, 0.0)
+        for step in range(1, samples + 1):
+            t = step / samples
+            current = bezier_point(p1, c1, c2, p2, t)
+            total += hypot(current[0] - prev[0], current[1] - prev[1])
+            prev = current
+
+    return total

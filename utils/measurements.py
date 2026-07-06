@@ -8,7 +8,7 @@ waist = 840
 waist_ease = 30
 hip = 1040
 nape_to_waist = 410
-waist_to_hip = 206
+waist_to_hip = 210
 armscye_depth = 230
 neck_size = 400
 shoulder = 130
@@ -47,3 +47,12 @@ skirt_length = 600
 skirt_hip_ease = 15
 skirt_back_waist_ease = 42.5
 skirt_front_waist_ease = 22.5
+
+body_rise = 300
+waist_to_floor = 1070
+waist_to_knee = 600
+trouser_bottom_width = 240
+
+distance_from_t5 = 30 if 8 <= size <= 14 else (32.5 if 14 <= size <= 20 else 35)
+distance_from_t16 = 42.5 if 8 <= size <= 14 else (45 if 14 <= size <= 20 else 47.5)
+distance_for_knee = 13 if 8 <= size <= 16 else (15 if 16 <= size <= 20 else 17)

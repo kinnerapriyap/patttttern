@@ -35,15 +35,23 @@ def get_perpendicular_intersection_with_line(
     return (x1 + t * dx, y1 + t * dy)
 
 
-def reflect_point_across_line(p, a, b):
-    dx, dy = [b[0] - a[0], b[1] - a[1]]
+def reflect_point_across_line(point: Point, line1: Point, line2: Point) -> Point:
+    x, y = point
+    x1, y1 = line1
+    x2, y2 = line2
+
+    dx = x2 - x1
+    dy = y2 - y1
+    if dx == 0 and dy == 0:
+        raise ValueError("line1 and line2 cannot be the same point")
+
     den = dx * dx + dy * dy
     if den == 0:
-        return [p[0], p[1]]
+        return (x, y)
 
-    t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / den
-    q = [a[0] + t * dx, a[1] + t * dy]
-    return [2 * q[0] - p[0], 2 * q[1] - p[1]]
+    t = ((x - x1) * dx + (y - y1) * dy) / den
+    q = (x1 + t * dx, y1 + t * dy)
+    return (2 * q[0] - x, 2 * q[1] - y)
 
 
 def divide_segment_into_parts(start: Point, end: Point, parts: int) -> list[Point]:
@@ -56,16 +64,25 @@ def divide_segment_into_parts(start: Point, end: Point, parts: int) -> list[Poin
     return [(start[0] + step_x * i, start[1] + step_y * i) for i in range(1, parts)]
 
 
-def get_point_on_line_at_distance(line1: Point, line2: Point, distance: float) -> Point:
-    """Return a point on the line from line1 to line2 at the given distance from line1."""
+def get_point_on_line_at_distance(
+    line1: Point,
+    line2: Point,
+    distance: float,
+    from_point: Point | None = None,
+) -> Point:
+    """Return a point on the line from line1 to line2 at the given distance from the origin point."""
+    origin = from_point or line1
     dx = line2[0] - line1[0]
     dy = line2[1] - line1[1]
     length = hypot(dx, dy)
     if length == 0:
         raise ValueError("line1 and line2 cannot be the same point")
 
-    ratio = distance / length
-    return (line1[0] + dx * ratio, line1[1] + dy * ratio)
+    projection = get_perpendicular_intersection_with_line(origin, line1, line2)
+    return (
+        projection[0] + dx * (distance / length),
+        projection[1] + dy * (distance / length),
+    )
 
 
 def get_midpoint(line1: Point, line2: Point) -> Point:

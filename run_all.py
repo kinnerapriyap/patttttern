@@ -18,6 +18,8 @@ MODULES = [
     "aldrich_tailored_skirt.base.back",
     "aldrich_tailored_trousers.base.front",
     "aldrich_tailored_trousers.base.back",
+    "aldrich_tailored_trousers.designs.no_dart_flare_shorts.front",
+    "aldrich_tailored_trousers.designs.no_dart_flare_shorts.back",
 ]
 
 

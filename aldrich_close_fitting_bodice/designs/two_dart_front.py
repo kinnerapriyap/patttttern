@@ -1,5 +1,5 @@
 from aldrich_close_fitting_bodice import pts
-from aldrich_close_fitting_bodice.one_dart_front import (
+from aldrich_close_fitting_bodice.designs.one_dart_front import (
     get_rotated_one_dart_front_points,
 )
 from render.svg_rendering import render_svg

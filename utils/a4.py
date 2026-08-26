@@ -1,6 +1,8 @@
 from aldrich_close_fitting_bodice.base.back import get_back_shapes
 from aldrich_close_fitting_bodice.base.front import get_front_shapes
-from aldrich_close_fitting_bodice.one_dart_front import get_one_dart_front_shapes
+from aldrich_close_fitting_bodice.designs.one_dart_front import (
+    get_one_dart_front_shapes,
+)
 from render.a4_rendering import render_svg_a4_pages
 from utils.paths import GENERATED_DIR
 
@@ -24,7 +26,7 @@ def render_all_a4_patterns(output_dir=GENERATED_DIR, **kwargs):
             base_filename="one_dart_front_a4",
             output_dir=output_dir,
             **kwargs,
-        )
+        ),
     }
 
 
@@ -47,4 +49,6 @@ if __name__ == "__main__":
     )
     print(f"Generated {len(results['front'])} A4 page(s) for front pattern")
     print(f"Generated {len(results['back'])} A4 page(s) for back pattern")
-    print(f"Generated {len(results['one_dart_front'])} A4 page(s) for one dart front pattern")
+    print(
+        f"Generated {len(results['one_dart_front'])} A4 page(s) for one dart front pattern"
+    )

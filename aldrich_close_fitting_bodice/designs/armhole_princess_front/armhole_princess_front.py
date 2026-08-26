@@ -59,7 +59,7 @@ def get_armhole_princess_front_shapes():
 if __name__ == "__main__":
     my_shapes = get_armhole_princess_front_shapes()
     output_file = generated_file(
-        "aldrich_close_fitting_bodice/armhole_princess_front.svg"
+        "aldrich_close_fitting_bodice/designs/armhole_princess_front/armhole_princess_front.svg"
     )
     render_svg(
         my_shapes,

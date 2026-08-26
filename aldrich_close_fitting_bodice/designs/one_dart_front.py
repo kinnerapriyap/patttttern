@@ -50,7 +50,9 @@ def get_one_dart_front_shapes():
 
 if __name__ == "__main__":
     my_shapes = get_one_dart_front_shapes()
-    output_file = generated_file("aldrich_close_fitting_bodice/one_dart_front.svg")
+    output_file = generated_file(
+        "aldrich_close_fitting_bodice/designs/one_dart_front.svg"
+    )
     render_svg(
         my_shapes,
         filename=str(output_file),

@@ -6,15 +6,17 @@ import subprocess
 import sys
 
 MODULES = [
-    "aldrich_close_fitting_bodice.main",
-    "aldrich_close_fitting_bodice.one_dart_front",
-    "aldrich_close_fitting_bodice.two_dart_front",
+    "aldrich_close_fitting_bodice.base.main",
     "aldrich_close_fitting_bodice.base.front",
     "aldrich_close_fitting_bodice.base.back",
+    "aldrich_close_fitting_bodice.designs.one_dart_front",
+    "aldrich_close_fitting_bodice.designs.two_dart_front",
     "aldrich_close_fitting_bodice.designs.shoulder_dart_front",
     "aldrich_close_fitting_bodice.designs.v_side_front",
-    "aldrich_close_fitting_bodice.designs.armhole_princess_front",
-    "aldrich_tailored_skirt.main",
+    "aldrich_close_fitting_bodice.designs.armhole_princess_front.armhole_princess_front",
+    "aldrich_close_fitting_bodice.designs.armhole_princess_front.armhole_princess_front_side",
+    "aldrich_close_fitting_bodice.designs.armhole_princess_front.armhole_princess_front_center",
+    "aldrich_tailored_skirt.base.main",
     "aldrich_tailored_skirt.base.front",
     "aldrich_tailored_skirt.base.back",
     "aldrich_tailored_trousers.base.front",

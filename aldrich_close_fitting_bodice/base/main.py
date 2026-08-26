@@ -68,7 +68,7 @@ def get_base_shapes():
 
 
 my_shapes = get_base_shapes()
-output_file = generated_file("aldrich_close_fitting_bodice/base.svg")
+output_file = generated_file("aldrich_close_fitting_bodice/base/base.svg")
 
 render_svg(
     my_shapes,

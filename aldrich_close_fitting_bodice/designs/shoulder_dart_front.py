@@ -43,7 +43,9 @@ def get_shoulder_dart_front_shapes():
 
 if __name__ == "__main__":
     my_shapes = get_shoulder_dart_front_shapes()
-    output_file = generated_file("aldrich_close_fitting_bodice/shoulder_dart_front.svg")
+    output_file = generated_file(
+        "aldrich_close_fitting_bodice/designs/shoulder_dart_front.svg"
+    )
     render_svg(
         my_shapes,
         filename=str(output_file),

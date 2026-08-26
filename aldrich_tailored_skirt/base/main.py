@@ -1,4 +1,4 @@
-from . import pts
+from .. import pts
 from utils.paths import generated_file
 from render.svg_rendering import render_svg
 
@@ -45,7 +45,7 @@ def get_base_shapes():
 
 
 my_shapes = get_base_shapes()
-output_file = generated_file("aldrich_tailored_skirt/base.svg")
+output_file = generated_file("aldrich_tailored_skirt/base/main.svg")
 
 render_svg(
     my_shapes,

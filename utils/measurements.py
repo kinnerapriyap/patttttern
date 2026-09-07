@@ -17,11 +17,12 @@ back_width = 374
 back_width_ease = 5
 dart = 88
 chest = 360
+bust_radius = 80
 
 front_dart = 45
 back_dart = 35
-front_side_dart = 10
-back_side_dart = 10
+front_side_dart = 15
+back_side_dart = 25
 
 size_above_14 = max(size - 14, 0)
 distance_from_p14 = (

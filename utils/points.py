@@ -1,14 +1,19 @@
 from math import sqrt
+from types import SimpleNamespace
 
 from utils.geometry import (
     get_midpoint,
     reflect_point_across_line,
 )
 
-from . import measurements as m
+from . import measurements as default_measurements
 
 
-def build_points():
+def build_points(**overrides):
+    m = SimpleNamespace(**vars(default_measurements))
+    for key, value in overrides.items():
+        setattr(m, key, value)
+
     p0 = (0, 0)
     p1 = (0, 15)
     p2 = (0, p1[1] + (m.armscye_depth + 5))
@@ -69,6 +74,7 @@ def build_points():
     d_half_bust_with_ease = m.bust / 2 + m.bust_ease
     d_half_waist_with_ease = m.waist / 2 + m.waist_ease
     d_available_dart_ease = d_half_bust_with_ease - d_half_waist_with_ease
+    d_used_dart_ease = m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart
 
     p24_1 = [p24[0] - (m.front_dart / 2), p24[1]]
     p24_2 = [p24[0] + (m.front_dart / 2), p24[1]]
@@ -92,8 +98,6 @@ def build_points():
             if name.startswith("p")
         },
         "available_dart_ease": d_available_dart_ease,
-        "used_dart_ease": (
-            m.front_dart + m.back_dart + m.front_side_dart + m.back_side_dart
-        ),
+        "used_dart_ease": d_used_dart_ease,
     }
     return {**point_values, **metadata}

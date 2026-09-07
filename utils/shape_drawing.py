@@ -36,7 +36,12 @@ def draw_shapes(
     text_style=None,
 ):
     style = style or {"stroke": "pink", "stroke_width": 1, "fill": "none"}
-    dash_style = dash_style or {"stroke": "pink", "stroke_width": 0.5, "fill": "none", "stroke_dasharray": "5,5"}
+    dash_style = dash_style or {
+        "stroke": "pink",
+        "stroke_width": 0.5,
+        "fill": "none",
+        "stroke_dasharray": "5,5",
+    }
     text_style = text_style or {"fill": "orange", "font_size": "8px"}
 
     for shape in shapes:
@@ -67,10 +72,16 @@ def draw_shapes(
                 dwg.add(dwg.path(d=d, **style))
 
         elif kind == "circle" and show_points:
-            _, named_pts = shape
-            for name, p in named_pts.items():
-                dwg.add(dwg.circle(center=p, r=1, **style))
-                if show_numbers:
+            points = shape[1]
+            r = shape[-1] if isinstance(shape[-1], (int, float)) else 1
+            items = (
+                points.items()
+                if isinstance(points, dict)
+                else [(None, p) for p in points]
+            )
+            for name, p in items:
+                dwg.add(
+                    dwg.circle(center=p, r=r, **(dash_style if show_dashes else style))
+                )
+                if show_numbers and name is not None:
                     dwg.add(dwg.text(name, insert=[p[0] + 2, p[1] + 2], **text_style))
-
-

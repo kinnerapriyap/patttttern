@@ -12,7 +12,7 @@ from utils.points import build_points
 from utils.rotation import rotate_point
 from utils import measurements as m
 
-pts = build_points(waist_ease=0, bust_ease=40, front_side_dart=20, back_side_dart=20)
+pts = build_points(waist_ease=10, bust_ease=40, front_side_dart=20, back_side_dart=20)
 
 
 def get_rotated_shoulder_princess_back_points():

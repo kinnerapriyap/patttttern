@@ -15,7 +15,7 @@ from utils import measurements as m
 # Ref fullness: https://www.youtube.com/shorts/T_-1WyAOK5k
 # Ref: https://madetosew.com/blog/draft-an-a-line-v-neck-dress/
 
-pts = build_points(waist_ease=0, bust_ease=40, front_side_dart=20, back_side_dart=20)
+pts = build_points(waist_ease=10, bust_ease=40, front_side_dart=20, back_side_dart=20)
 
 
 def get_rotated_shoulder_princess_front_points():

@@ -148,11 +148,15 @@ def get_rotated_shoulder_princess_front_points():
 
 def get_shoulder_princess_front_center_shapes():
     rotated = get_rotated_shoulder_princess_front_points()
-    print(f"Width total: {get_distance(rotated["p36as"], rotated["p25at"]) +
-           get_distance(rotated["p25ar"], rotated["p8a"])}")
-    print(f"Skirt length: {get_distance(pts["p6"], rotated["p8a"])}")
-    print(f"Shoulder total: {get_distance(rotated["p20a"], rotated["p27ad"]) +
-                              get_distance(rotated["p27bd"], rotated["p30a"])}")
+    width_total = get_distance(rotated["p36as"], rotated["p25at"]) + get_distance(
+        rotated["p25ar"], rotated["p8a"]
+    )
+    print(f"Width total: {width_total}")
+    print(f"Skirt length: {get_distance(pts['p6'], rotated['p8a'])}")
+    shoulder_total = get_distance(rotated["p20a"], rotated["p27ad"]) + get_distance(
+        rotated["p27bd"], rotated["p30a"]
+    )
+    print(f"Shoulder total: {shoulder_total}")
     return [
         ("circle", rotated),
         ("curve", rotated["p20ad"], rotated["p3"], 0.05),

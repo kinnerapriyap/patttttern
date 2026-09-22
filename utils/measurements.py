@@ -51,6 +51,7 @@ back_width = _profile["back_width"]
 back_width_ease = _profile["back_width_ease"]
 dart = _profile["dart"]
 chest = _profile["chest"]
+bust_radius = _profile["bust_radius"]
 
 front_dart = _profile["front_dart"]
 back_dart = _profile["back_dart"]

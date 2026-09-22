@@ -146,3 +146,46 @@ def get_french_curve_length(points: Sequence[Point], k: float) -> float:
             prev = current
 
     return total
+
+
+def get_distance(point1: Point, point2: Point) -> float:
+    """Return the Euclidean distance between two points to 2 decimal places."""
+    return round(hypot(point2[0] - point1[0], point2[1] - point1[1]), 2)
+
+
+def move_shapes(shapes: Sequence[tuple], distance: float) -> list[tuple]:
+    """Return a copy of shapes shifted sideways (along x) by the given distance."""
+
+    def move_point(point: Point) -> Point:
+        return (point[0] + distance, point[1])
+
+    moved = []
+    for shape in shapes:
+        kind = shape[0]
+
+        if kind in ("line", "dash"):
+            _, a, b = shape
+            moved.append((kind, move_point(a), move_point(b)))
+
+        elif kind == "polyline":
+            _, points = shape
+            moved.append((kind, [move_point(p) for p in points]))
+
+        elif kind == "curve":
+            _, start, end, k = shape
+            moved.append((kind, move_point(start), move_point(end), k))
+
+        elif kind == "french_curve":
+            _, points, k = shape
+            moved.append((kind, [move_point(p) for p in points], k))
+
+        elif kind == "circle":
+            _, named_points = shape
+            moved.append(
+                (kind, {name: move_point(p) for name, p in named_points.items()})
+            )
+
+        else:
+            moved.append(shape)
+
+    return moved
